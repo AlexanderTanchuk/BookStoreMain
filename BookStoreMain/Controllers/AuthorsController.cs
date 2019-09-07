@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BookStore_implementation.Models;
+using BookStore.Implementation.Models;
+using BookStore.Implementation.Services;
 
 namespace BookStoreMain.Controllers
 {
@@ -12,64 +13,53 @@ namespace BookStoreMain.Controllers
     [ApiController]
     public class AuthorsController : ControllerBase
     {
+        private readonly IAuthorService _authorService;
         private List<Author> authors;
-        public AuthorsController()
+        public AuthorsController(IAuthorService authorService)
         {
-            authors = new List<Author>{
-                new Author
-                {
-                    Id = 1,
-                    Name = "Puskkin",
-                    
-                },
-                new Author
-                {
-                    Id = 2,
-                    Name = "Gogoljevich",
-
-                },
-                new Author
-                {
-                    Id = 3,
-                    Name = "Boiboi",
-
-                },
-                };
+            _authorService = authorService;
         }
 
-        [HttpGet/*("[action]")*/]
-        public List<Author> Return()
+        [HttpGet]
+        public JsonResult Return()
         {
-            return authors;
+            return new JsonResult(_authorService.ListDetailed());
         }
 
-        [HttpGet("{id}")/*("[action]")*/]
-        public Author Return(int id)
+        [HttpGet("{id}")]
+        public JsonResult Return(int id)
         {
-            return authors.SingleOrDefault(c => c.Id == id);
+            return new JsonResult(_authorService.GetDetailed(id));
         }
 
         [HttpPost]
-        public ActionResult Create()
+        public JsonResult Create(Author author)
         {
-            var length = authors.Count + 1;
-
-            authors.Add(new Author
-            {
-                Id = length,
-                Name = "Author No" + length,
-            });
-            return Content("Added Author id=" + length);
+            
+            return new JsonResult(_authorService.Create(author)); ;
         }
 
+        [HttpPut]
+        public JsonResult Update(int id, Author author)
+        {
+            return new JsonResult(_authorService.Update(id, author));
+        }
+        
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            /*var book = books.SingleOrDefault(c => c.Id == id);
-            if (book == null)
-                return NotFound();
-            books.Remove(book);*/
-            return Content("Deleted id=" + id);
+            _authorService.Delete(id);
+            return new OkResult();
+        }
+
+        [HttpPost("[action]")]
+        public JsonResult TestCreate()
+        {
+            var authorTest = new Author
+            {
+                Name = "TestBook Writer"
+            };
+            return new JsonResult(_authorService.Create(authorTest));
         }
     }
 }

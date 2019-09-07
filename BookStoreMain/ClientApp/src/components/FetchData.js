@@ -20,7 +20,7 @@ class FetchData extends Component {
   render() {
     return (
       <div>
-        <h1>Weather forecast</h1>
+        <h1>Books</h1>
         <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
         {renderForecastsTable(this.props)}
         {renderPagination(this.props)}
@@ -34,19 +34,21 @@ function renderForecastsTable(props) {
     <table className='table'>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Temp. (C)</th>
-          <th>Temp. (F)</th>
-          <th>Summary</th>
+          <th>Name</th>
+          <th>Authors</th>
+          <th>Genre</th>
+          <th>Price</th>
+          <th>Total Amount</th>
         </tr>
       </thead>
       <tbody>
         {props.forecasts.map(forecast =>
-          <tr key={forecast.dateFormatted}>
-            <td>{forecast.dateFormatted}</td>
-            <td>{forecast.temperatureC}</td>
-            <td>{forecast.temperatureF}</td>
-            <td>{forecast.summary}</td>
+          <tr key={forecast.id}>
+                <td>{forecast.name}</td>
+                <td>{forecast.authors.map(author => <tr>{author.name}</tr>)}</td>
+                <td>{forecast.genre.name}</td>
+                <td>{forecast.price}</td>
+                <td>{forecast.totalAmount}</td>
           </tr>
         )}
       </tbody>

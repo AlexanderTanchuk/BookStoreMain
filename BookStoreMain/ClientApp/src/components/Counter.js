@@ -15,7 +15,12 @@ const Counter = props => (
   </div>
 );
 
+function mapStateToProps(state) {
+    return state.counter
+}
+
 export default connect(
-  state => state.counter,
-  dispatch => bindActionCreators(actionCreators, dispatch)
+    //state => state.counter,
+    mapStateToProps,
+    dispatch => bindActionCreators(actionCreators, dispatch)
 )(Counter);

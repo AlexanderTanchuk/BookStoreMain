@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore_implementation.Models
+namespace BookStore.Implementation.Models
 {
     public class Book
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Author> Authors { get; set; }
-        public ICollection<Genre> Genres { get; set; }
-        public Book()
+        public IList<BookAuthor> BookAuthors { get; set; }
+        public Genre Genre { get; set; }
+
+        public byte GenreId { get; set; }
+        //public IList<Genre> Genres { get; set; }
+        /*public Book()
         {
-            Authors = new List<Author>();
             Genres = new List<Genre>();
-        }
+        }*/
 
         public decimal Price { get; set; }
 
