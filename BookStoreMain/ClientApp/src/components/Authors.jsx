@@ -3,11 +3,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { actionCreators } from '../store/Authors';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import DropDownBooks from './DropdownField';//'components/product/product-card'
 
 class Authors extends Component {
   constructor(props) {
     super(props);
     console.log("Authors constructor called");
+    
   }
 
   componentWillMount() {
@@ -22,6 +25,8 @@ class Authors extends Component {
     console.log("Authors WillReceiveProps called");
   }
   
+  
+
   render() {
     console.log("Authors Render called");
       return (
@@ -46,7 +51,7 @@ class Authors extends Component {
             {this.props.authors.map(author =>
               <tr key={author.id}>
                 <td>{author.name}</td>
-                <td>{author.books.map(book => <tr>{book.name}</tr>)}</td>
+                <DropDownBooks title="Books" lines={author.books} />
               </tr>
             )}
           </tbody>
